@@ -1,2 +1,43 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap');
 @import "tailwindcss";
+
+/* Animación para abrir el modal */
+@keyframes fade-in-scale {
+    0% {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Animación para cerrar el modal */
+@keyframes fade-out-scale {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+}
+
+/* Clases para aplicar las animaciones */
+.modal-open {
+    animation: fade-in-scale 0.3s ease-out forwards;
+}
+
+.modal-close {
+    animation: fade-out-scale 0.3s ease-in forwards;
+}
+
+.columns-1,
+  .sm\:columns-2,
+  .lg\:columns-3,
+  .xl\:columns-4 {
+    column-fill: balance;
+    column-gap: 2rem;
+  }
