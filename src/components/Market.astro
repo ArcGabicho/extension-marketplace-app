@@ -26,14 +26,14 @@ function handleFilter(filtered: Extension[]) {
 }
 ---
 
-<div class="flex flex-col justify-center items-center text-white text-xl px-4 lg:px-12 min-h-screen bg-gradient-to-b from-zinc-900 to-black">
+<div class="flex flex-col justify-center items-center text-white text-xl px-4 lg:px-12 min-h-screen">
   <Filtrer extensions={extensions} onFilter={handleFilter} client:load />
   <div class="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-8 my-14 w-full max-w-[1920px]">
     {filteredExtensions.slice(0, 60).map((extension) => {
       const isSpecialImage = ["APP For IG DM", "Buffer"].includes(extension.name);
       
       return (
-        <div class="bg-zinc-900/50 backdrop-blur-sm rounded-xl p-6 flex flex-col space-y-4 transition-all duration-300 border border-zinc-800 hover:border-[#00bf63] hover:shadow-lg hover:shadow-[#00bf63]/20 group break-inside-avoid mb-8">
+        <div class="bg-zinc-900/20 backdrop-blur-sm rounded-xl p-6 flex flex-col space-y-4 transition-all duration-300 border border-zinc-800/50 hover:border-[#00bf63] hover:shadow-lg hover:shadow-[#00bf63]/20 group break-inside-avoid mb-8">
           <div class="flex items-center gap-6">
             {/* Contenedor para imágenes especiales */}
             <div class={isSpecialImage ? "p-1 bg-white rounded-full" : ""}>
