@@ -3,7 +3,7 @@ import GitHub from '../icons/GitHub';
 
 import { useState } from 'react';
 
-function Filtrer({ extensions, onFilter }) {
+function Filtrer({ extensions }) {
     const Categorias = ['Todos', 'AdBlocking', 'Productividad', 'Personalización', 'Utilitarios', 'Shopping', 'Redes Sociales', 'Seguridad', 'IA', 'Videojuegos'];
     const [modalOpen, setModalOpen] = useState(false);
     const [isClosing, setIsClosing] = useState(false);
@@ -24,14 +24,21 @@ function Filtrer({ extensions, onFilter }) {
     const handleCategorySelect = (category) => {
         setSelectedCategory(category);
         toggleModal();
-        if (typeof onFilter === 'function') {
-            const filteredExtensions = category === 'Todos' 
-                ? extensions 
-                : extensions.filter(extension => extension.category === category);
-            onFilter(filteredExtensions);
-        } else {
-            console.error('onFilter is not a function');
+        
+        if (!extensions) {
+            console.warn('Missing required prop: extensions array');
+            return;
         }
+
+        const filteredExtensions = category === 'Todos' 
+            ? extensions 
+            : extensions.filter(extension => extension.category === category);
+        
+        // Disparar evento personalizado con las extensiones filtradas
+        const event = new CustomEvent('filter-extensions', {
+            detail: filteredExtensions
+        });
+        document.dispatchEvent(event);
     };
 
     return (

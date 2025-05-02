@@ -3,33 +3,14 @@ import Filtrer from "../components/Filtrer";
 import Download from "../icons/Download.astro";
 
 const response = await fetch("https://extension-marketplace-api-production.up.railway.app/api/extensions");
-
-type Extension = {
-  id: string;
-  imageUrl: string;
-  name: string;
-  description: string;
-  downloadUrl: string;
-  category: string;
-};
-
 const data = await response.json();
-const extensions: Extension[] = data.extensions;
-
-// Reactive variable for filtered extensions
-let filteredExtensions = [...extensions]; // Inicializamos con todas las extensiones
-
-// Function to handle filtering
-function handleFilter(filtered: Extension[]) {
-  filteredExtensions = filtered; // Actualizamos las extensiones filtradas
-  console.log("Filtered extensions updated:", filteredExtensions); // Agregamos un log para depuración
-}
+const extensions = data.extensions;
 ---
 
 <div class="flex flex-col justify-center items-center text-white text-xl px-4 lg:px-12 min-h-screen">
-  <Filtrer extensions={extensions} onFilter={handleFilter} client:load />
-  <div class="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-8 my-14 w-full max-w-[1920px]">
-    {filteredExtensions.slice(0, 60).map((extension) => {
+  <Filtrer client:load extensions={extensions} />
+  <div class="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-8 my-14 w-full max-w-[1920px]" id="extensions-container">
+    {extensions.map((extension) => {
       const isSpecialImage = ["APP For IG DM", "Buffer"].includes(extension.name);
       
       return (
@@ -73,3 +54,55 @@ function handleFilter(filtered: Extension[]) {
     })}
   </div>
 </div>
+
+<script>
+  // Manejo del filtrado en el cliente
+  document.addEventListener('DOMContentLoaded', () => {
+    const container = document.getElementById('extensions-container');
+    
+    // Escuchar el evento personalizado de filtrado
+    document.addEventListener('filter-extensions', (event) => {
+      const filteredExtensions = event.detail;
+      if (container && filteredExtensions) {
+        // Actualizar el contenido del contenedor
+        container.innerHTML = filteredExtensions
+          .map((extension) => `
+            <div class="bg-zinc-900/20 backdrop-blur-sm rounded-xl p-6 flex flex-col space-y-4 transition-all duration-300 border border-zinc-800/50 hover:border-[#00bf63] hover:shadow-lg hover:shadow-[#00bf63]/20 group break-inside-avoid mb-8">
+              <div class="flex items-center gap-6">
+                <div class="${["APP For IG DM", "Buffer"].includes(extension.name) ? "p-1 bg-white rounded-full" : ""}">
+                  <img 
+                    src="${extension.imageUrl}" 
+                    alt="${extension.name}" 
+                    class="w-16 h-16 shadow-md transition-transform duration-300 group-hover:scale-105 ${["APP For IG DM", "Buffer"].includes(extension.name) ? "rounded-full object-contain" : "rounded-xl"}" 
+                  />
+                </div>
+                <div>
+                  <h2 class="text-xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+                    ${extension.name}
+                  </h2>
+                  <span class="text-sm text-[#00bf63] font-medium">
+                    ${extension.category}
+                  </span>
+                </div>
+              </div>
+              <p class="text-zinc-400 text-sm leading-relaxed">
+                ${extension.description}
+              </p>
+              <div class="pt-4 border-t border-zinc-800">
+                <a 
+                  href="${extension.downloadUrl}" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  class="flex items-center justify-center gap-2 w-full text-white bg-gradient-to-r from-[#00bf63] to-[#15193e] px-4 py-2.5 rounded-xl transition-all duration-300 hover:from-[#00d973] hover:to-[#1a1f4a] hover:scale-[1.02] hover:shadow-lg hover:shadow-[#00bf63]/20"
+                >
+                  <Download />
+                  <span class="font-medium">Descargar</span>
+                </a>
+              </div>
+            </div>
+          `)
+          .join('');
+      }
+    });
+  });
+</script>
