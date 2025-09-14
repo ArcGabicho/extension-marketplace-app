@@ -11,7 +11,7 @@ Marketplace de Extensiones de Google Chrome inspirado en un reto de Frontend Men
 Instala mi proyecto con NPM
 
 ```bash
-  git clone https://github.com/GaboGabito05/extension-marketplace-app.git
+  git clone https://github.com/ArcGabicho/extension-marketplace-app.git
 ```
 
 ```bash
@@ -23,10 +23,4 @@ Instala mi proyecto con NPM
 ```
 ## API RESTful 
 
- - [Documentación]()
- - [Repositorio](https://github.com/GaboGabito05/extension-marketplace-app)
  - [JSON](https://extension-marketplace-api-production.up.railway.app/api/extensions)
-
-## Feedback
-
-Si tienes sugeriencias mandame un correo! ceo@blackmountcorporation.com
