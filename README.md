@@ -2,8 +2,6 @@
 
 Marketplace de Extensiones de Google Chrome inspirado en un reto de Frontend Mentor con el agregado de una interfaz con Astro y React ademas de una API en Go.
 
-## Screenshots
-
 ![App Screenshot](https://i.imgur.com/IfzSiae.png)
 
 ## Instalación
